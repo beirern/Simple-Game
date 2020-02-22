@@ -1,6 +1,9 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+const fillCellColor = "#66a3ff";
+const borderColor = "#333300";
+
 // Binary Search for arrays
 // https://stackoverflow.com/questions/22697936/binary-search-in-javascript
 function binarySearch(arr, el) {
@@ -33,7 +36,7 @@ function setUpGrid() {
   xCoords = [];
   yCoords = [];
 
-  ctx.fillStyle = "green";
+  ctx.fillStyle = borderColor;
   const numBins = 50; // numBins x numBins Grid
   let i;
   let j;
@@ -66,7 +69,7 @@ function setUpGrid() {
   for (i = 0; i < filledCells.length; i++) {
     for (j = 0; j < filledCells.length; j++) {
       if (filledCells[i][j]) {
-        ctx.fillStyle = "black";
+        ctx.fillStyle = fillCellColor;
         ctx.fillRect(
           xCoords[j],
           yCoords[i],
@@ -95,7 +98,7 @@ canvas.addEventListener("click", function(event) {
   const x = event.pageX - 9; // 9 is offset to correct for click being off
   const y = event.pageY - 9;
 
-  ctx.fillStyle = "black";
+  ctx.fillStyle = fillCellColor;
 
   // Do binary search to get coords and for some reason subtract 2 to get correct index
   let newX = -1 * binarySearch(xCoords, x) - 2;
@@ -109,5 +112,4 @@ canvas.addEventListener("click", function(event) {
 
   // Mark the filled Cells
   filledCells[newY][newX] = true;
-  console.log(filledCells);
 });
