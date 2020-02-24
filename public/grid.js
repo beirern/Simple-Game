@@ -74,6 +74,12 @@ class Grid {
     this.yCoords.push(height - 1);
 
     // Redraw Filled in Spaces
+    this.redraw();
+  }
+
+  redraw() {
+    let i;
+    let j;
     for (i = 0; i < this.currentCells.length; i++) {
       for (j = 0; j < this.currentCells.length; j++) {
         if (this.currentCells[i][j].alive) {
@@ -114,9 +120,7 @@ class Grid {
     this.currentCells[newY][newX].alive = !this.currentCells[newY][newX].alive;
 
     // Get Neighbors for Current Cells
-    if (this.currentCells[newY][newX].alive) {
-      this.currentCells[newY][newX].getNeighbors(this.currentCells);
-    }
+    this.currentCells[newY][newX].getNeighbors(this.currentCells);
     this.currentCells[newY][newX].updateNeighbors(this.currentCells);
   }
 }

@@ -17,3 +17,9 @@ canvas.addEventListener("click", function(event) {
   grid.markCell(event);
   console.log(grid.currentCells);
 });
+
+const startButton = document.getElementById("start");
+startButton.addEventListener("click", function() {});
+
+const stopButton = document.getElementById("stop");
+stopButton.addEventListener("click", function() {});
