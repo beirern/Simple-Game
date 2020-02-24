@@ -85,10 +85,18 @@ class Grid {
         if (this.currentCells[i][j].alive) {
           this.ctx.fillStyle = this.fillCellColor;
           this.ctx.fillRect(
-            this.xCoords[j],
-            this.yCoords[i],
-            this.xCoords[1] - this.xCoords[0],
-            this.yCoords[1] - this.yCoords[0]
+            this.xCoords[j] + 2,
+            this.yCoords[i] + 2,
+            this.xCoords[1] - this.xCoords[0] - 2,
+            this.yCoords[1] - this.yCoords[0] - 2
+          );
+        } else {
+          this.ctx.fillStyle = this.backgroundColor;
+          this.ctx.fillRect(
+            this.xCoords[j] + 2,
+            this.yCoords[i] + 2,
+            this.xCoords[1] - this.xCoords[0] - 2,
+            this.yCoords[1] - this.yCoords[0] - 2
           );
         }
       }
@@ -112,8 +120,8 @@ class Grid {
     this.ctx.fillRect(
       this.xCoords[newX] + 1,
       this.yCoords[newY] + 1,
-      this.xCoords[1] - this.xCoords[0] - 1,
-      this.yCoords[1] - this.yCoords[0] - 1
+      this.xCoords[1] - this.xCoords[0] - 2,
+      this.yCoords[1] - this.yCoords[0] - 2
     );
 
     // Mark the filled Cells
@@ -122,6 +130,49 @@ class Grid {
     // Get Neighbors for Current Cells
     this.currentCells[newY][newX].getNeighbors(this.currentCells);
     this.currentCells[newY][newX].updateNeighbors(this.currentCells);
+  }
+
+  // Moves to next stage of life
+  getNextStage() {
+    let i;
+    let j;
+    let tempCell;
+    for (i = 0; i < this.currentCells.length; i++) {
+      this.nextCells.push([]);
+      for (j = 0; j < this.currentCells[0].length; j++) {
+        tempCell = this.currentCells[i][j];
+        if (tempCell.alive) {
+          if (tempCell.numNeighbors <= 1) {
+            // 0 or 1 neighbors dies
+            this.nextCells[i].push(new Cell(j, i));
+          } else if (tempCell.numNeighbors <= 3) {
+            // 2 or 3 survives
+            this.nextCells[i].push(new Cell(j, i, true));
+          } else {
+            // 4 or more die
+            this.nextCells[i].push(new Cell(j, i));
+          }
+        } else {
+          if (tempCell.numNeighbors === 3) {
+            // 3 neighbors populates
+            this.nextCells[i].push(new Cell(j, i, true));
+          } else {
+            this.nextCells[i].push(new Cell(j, i));
+          }
+        }
+      }
+    }
+
+    for (i = 0; i < this.nextCells.length; i++) {
+      for (j = 0; j < this.nextCells[0].length; j++) {
+        this.nextCells[i][j].getNeighbors(this.nextCells);
+      }
+    }
+
+    this.currentCells = this.nextCells;
+    this.nextCells = [];
+
+    this.redraw();
   }
 }
 

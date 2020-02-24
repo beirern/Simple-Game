@@ -7,13 +7,13 @@ class Cell {
   numNeighbors;
 
   // Set new
-  constructor(x, y) {
+  constructor(x, y, alive = false) {
     this.x = x;
     this.y = y;
 
     this.numNeighbors = 0;
 
-    this.alive = false;
+    this.alive = alive;
   }
 
   // Check all 8 directions for neighbors
@@ -64,58 +64,58 @@ class Cell {
   // Update Neighboring cells to have correct neighbor count
   updateNeighbors(currentCells) {
     if (inGrid(currentCells, this.y - 1, this.x - 1)) {
-      if (currentCells[this.y - 1][this.x - 1].alive && this.alive) {
+      if (this.alive) {
         currentCells[this.y - 1][this.x - 1].numNeighbors++;
-      } else if (currentCells[this.y - 1][this.x - 1].alive && !this.alive) {
+      } else {
         currentCells[this.y - 1][this.x - 1].numNeighbors--;
       }
     }
     if (inGrid(currentCells, this.y - 1, this.x)) {
-      if (currentCells[this.y - 1][this.x].alive && this.alive) {
+      if (this.alive) {
         currentCells[this.y - 1][this.x].numNeighbors++;
-      } else if (currentCells[this.y - 1][this.x].alive && !this.alive) {
+      } else {
         currentCells[this.y - 1][this.x].numNeighbors--;
       }
     }
     if (inGrid(currentCells, this.y - 1, this.x + 1)) {
-      if (currentCells[this.y - 1][this.x + 1].alive && this.alive) {
+      if (this.alive) {
         currentCells[this.y - 1][this.x + 1].numNeighbors++;
-      } else if (currentCells[this.y - 1][this.x + 1].alive && !this.alive) {
+      } else {
         currentCells[this.y - 1][this.x + 1].numNeighbors--;
       }
     }
     if (inGrid(currentCells, this.y, this.x - 1)) {
-      if (currentCells[this.y][this.x - 1].alive && this.alive) {
+      if (this.alive) {
         currentCells[this.y][this.x - 1].numNeighbors++;
-      } else if (currentCells[this.y][this.x - 1].alive && !this.alive) {
+      } else {
         currentCells[this.y][this.x - 1].numNeighbors--;
       }
     }
     if (inGrid(currentCells, this.y, this.x + 1)) {
-      if (currentCells[this.y][this.x + 1].alive && this.alive) {
+      if (this.alive) {
         currentCells[this.y][this.x + 1].numNeighbors++;
-      } else if (currentCells[this.y][this.x + 1].alive && !this.alive) {
+      } else {
         currentCells[this.y][this.x + 1].numNeighbors--;
       }
     }
     if (inGrid(currentCells, this.y + 1, this.x - 1)) {
-      if (currentCells[this.y + 1][this.x - 1].alive && this.alive) {
+      if (this.alive) {
         currentCells[this.y + 1][this.x - 1].numNeighbors++;
-      } else if (currentCells[this.y + 1][this.x - 1].alive && !this.alive) {
+      } else {
         currentCells[this.y + 1][this.x - 1].numNeighbors--;
       }
     }
     if (inGrid(currentCells, this.y + 1, this.x)) {
-      if (currentCells[this.y + 1][this.x].alive && this.alive) {
+      if (this.alive) {
         currentCells[this.y + 1][this.x].numNeighbors++;
-      } else if (currentCells[this.y + 1][this.x].alive && !this.alive) {
+      } else {
         currentCells[this.y + 1][this.x].numNeighbors--;
       }
     }
     if (inGrid(currentCells, this.y + 1, this.x + 1)) {
-      if (currentCells[this.y + 1][this.x + 1].alive && this.alive) {
+      if (this.alive) {
         currentCells[this.y + 1][this.x + 1].numNeighbors++;
-      } else if (currentCells[this.y + 1][this.x + 1].alive && !this.alive) {
+      } else {
         currentCells[this.y + 1][this.x + 1].numNeighbors--;
       }
     }

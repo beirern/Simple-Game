@@ -24,4 +24,17 @@ function inGrid(arr, i, j) {
   return true;
 }
 
-export { binarySearch, inGrid };
+function gameOfLifeLoop(grid, stop = false) {
+  if (!stop) {
+    gameOfLifetimeout(grid);
+  }
+}
+
+function gameOfLifetimeout(grid, msec = 1000) {
+  setTimeout(function() {
+    grid.getNextStage();
+    gameOfLifetimeout(grid);
+  }, msec);
+}
+
+export { binarySearch, inGrid, gameOfLifeLoop };
