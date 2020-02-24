@@ -16,4 +16,12 @@ function binarySearch(arr, el) {
   return -m - 1;
 }
 
-export { binarySearch };
+// Helper function to see if a 2D coordinate is in the array
+function inGrid(arr, i, j) {
+  if (i < 0 || i >= arr.length || j < 0 || j >= arr[0].length) {
+    return false;
+  }
+  return true;
+}
+
+export { binarySearch, inGrid };

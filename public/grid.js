@@ -1,4 +1,5 @@
 import { binarySearch } from "./functions.js";
+import { Cell } from "./cell.js";
 
 class Grid {
   canvas;
@@ -53,7 +54,7 @@ class Grid {
       for (i = 0; i < numBins; i++) {
         this.currentCells.push([]);
         for (j = 0; j < numBins; j++) {
-          this.currentCells[i].push(false);
+          this.currentCells[i].push(new Cell(j, i));
         }
       }
     }
@@ -75,7 +76,7 @@ class Grid {
     // Redraw Filled in Spaces
     for (i = 0; i < this.currentCells.length; i++) {
       for (j = 0; j < this.currentCells.length; j++) {
-        if (this.currentCells[i][j]) {
+        if (this.currentCells[i][j].alive) {
           this.ctx.fillStyle = this.fillCellColor;
           this.ctx.fillRect(
             this.xCoords[j],
@@ -96,7 +97,7 @@ class Grid {
     let newX = -1 * binarySearch(this.xCoords, x) - 2;
     let newY = -1 * binarySearch(this.yCoords, y) - 2;
 
-    if (this.currentCells[newY][newX]) {
+    if (this.currentCells[newY][newX].alive) {
       this.ctx.fillStyle = this.backgroundColor;
     } else {
       this.ctx.fillStyle = this.fillCellColor;
@@ -110,7 +111,13 @@ class Grid {
     );
 
     // Mark the filled Cells
-    this.currentCells[newY][newX] = !this.currentCells[newY][newX];
+    this.currentCells[newY][newX].alive = !this.currentCells[newY][newX].alive;
+
+    // Get Neighbors for Current Cells
+    if (this.currentCells[newY][newX].alive) {
+      this.currentCells[newY][newX].getNeighbors(this.currentCells);
+      this.currentCells[newY][newX].updateNeighbors(this.currentCells);
+    }
   }
 }
 
