@@ -18,6 +18,7 @@ class Cell {
 
   // Check all 8 directions for neighbors
   getNeighbors(currentCells) {
+    this.numNeighbors = 0;
     if (inGrid(currentCells, this.y - 1, this.x - 1)) {
       if (currentCells[this.y - 1][this.x - 1].alive) {
         this.numNeighbors++;

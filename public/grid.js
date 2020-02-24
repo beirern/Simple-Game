@@ -116,8 +116,8 @@ class Grid {
     // Get Neighbors for Current Cells
     if (this.currentCells[newY][newX].alive) {
       this.currentCells[newY][newX].getNeighbors(this.currentCells);
-      this.currentCells[newY][newX].updateNeighbors(this.currentCells);
     }
+    this.currentCells[newY][newX].updateNeighbors(this.currentCells);
   }
 }
 

@@ -1,5 +1,6 @@
 import { Grid } from "./grid.js";
 
+// Get canvas from HTML
 const canvas = document.getElementById("canvas");
 
 // TODO: CHANGE numBins to be more responsive (smaller screen less bins)
