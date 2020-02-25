@@ -3,6 +3,8 @@ import { Cell } from "./cell.js";
 
 class Grid {
   canvas;
+  width;
+  height;
   ctx;
   numBims;
   xCoords;
@@ -33,13 +35,15 @@ class Grid {
   setUpGrid(numBins) {
     this.numBims = numBins;
 
-    // Making canvas full screen
-    this.canvas.width = window.outerWidth;
-    this.canvas.height = window.outerHeight;
+    // Making canvas full screen and divisible by numBins
+    // Add one to leave room for one pixel border
+    this.canvas.width = window.outerWidth - (window.outerWidth % numBins) + 1;
+    this.canvas.height =
+      window.outerHeight - (window.outerHeight % numBins) + 1;
 
     // Getting Canvas Size
-    let width = canvas.width;
-    let height = canvas.height;
+    this.width = this.canvas.width;
+    this.height = this.canvas.height;
 
     // Empty the Arrays
     this.xCoords = [];
@@ -60,18 +64,30 @@ class Grid {
     }
 
     for (i = 0; i < this.currentCells.length; i++) {
-      this.ctx.fillRect(i * (width / this.numBins), 0, 1, height);
-      this.xCoords.push(i * (width / this.numBins));
+      this.ctx.fillRect(
+        i * Math.floor(this.width / this.numBins),
+        0,
+        1,
+        this.height
+      );
+      this.xCoords.push(i * Math.floor(this.width / this.numBins));
     }
-    this.ctx.fillRect(width - 1, 0, 1, height);
-    this.xCoords.push(width - 1);
+    this.ctx.fillRect(this.width - 1, 0, 1, this.height);
+    this.xCoords.push(this.width - 1);
+
+    console.log(this.xCoords);
 
     for (i = 0; i < this.currentCells.length; i++) {
-      this.ctx.fillRect(0, i * (height / this.numBins), width, 1);
-      this.yCoords.push(i * (height / this.numBins));
+      this.ctx.fillRect(
+        0,
+        i * Math.floor(this.height / this.numBins),
+        this.width,
+        1
+      );
+      this.yCoords.push(i * Math.floor(this.height / this.numBins));
     }
-    this.ctx.fillRect(0, height - 1, width, 1);
-    this.yCoords.push(height - 1);
+    this.ctx.fillRect(0, this.height - 1, this.width, 1);
+    this.yCoords.push(this.height - 1);
 
     // Redraw Filled in Spaces
     this.redraw();
@@ -85,18 +101,18 @@ class Grid {
         if (this.currentCells[i][j].alive) {
           this.ctx.fillStyle = this.fillCellColor;
           this.ctx.fillRect(
-            this.xCoords[j] + 2,
-            this.yCoords[i] + 2,
-            this.xCoords[1] - this.xCoords[0] - 2,
-            this.yCoords[1] - this.yCoords[0] - 2
+            this.xCoords[j] + 1,
+            this.yCoords[i] + 1,
+            this.xCoords[1] - this.xCoords[0] - 1,
+            this.yCoords[1] - this.yCoords[0] - 1
           );
         } else {
           this.ctx.fillStyle = this.backgroundColor;
           this.ctx.fillRect(
-            this.xCoords[j] + 2,
-            this.yCoords[i] + 2,
-            this.xCoords[1] - this.xCoords[0] - 2,
-            this.yCoords[1] - this.yCoords[0] - 2
+            this.xCoords[j] + 1,
+            this.yCoords[i] + 1,
+            this.xCoords[1] - this.xCoords[0] - 1,
+            this.yCoords[1] - this.yCoords[0] - 1
           );
         }
       }
@@ -108,8 +124,14 @@ class Grid {
     const y = event.pageY - 9;
 
     // Do binary search to get coords and for some reason subtract 2 to get correct index
-    let newX = -1 * binarySearch(this.xCoords, x) - 2;
-    let newY = -1 * binarySearch(this.yCoords, y) - 2;
+    let newX = binarySearch(this.xCoords, x);
+    if (newX < 0) {
+      newX = -1 * binarySearch(this.xCoords, x) - 2;
+    }
+    let newY = binarySearch(this.yCoords, y);
+    if (newY < 0) {
+      newY = -1 * binarySearch(this.yCoords, y) - 2;
+    }
 
     if (this.currentCells[newY][newX].alive) {
       this.ctx.fillStyle = this.backgroundColor;
@@ -120,8 +142,8 @@ class Grid {
     this.ctx.fillRect(
       this.xCoords[newX] + 1,
       this.yCoords[newY] + 1,
-      this.xCoords[1] - this.xCoords[0] - 2,
-      this.yCoords[1] - this.yCoords[0] - 2
+      this.xCoords[1] - this.xCoords[0] - 1,
+      this.yCoords[1] - this.yCoords[0] - 1
     );
 
     // Mark the filled Cells
