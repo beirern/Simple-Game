@@ -24,16 +24,24 @@ function inGrid(arr, i, j) {
   return true;
 }
 
-function gameOfLifeLoop(grid, stop = false) {
-  if (!stop) {
-    gameOfLifetimeout(grid);
-  }
+// Caller for Game of Life Recursive Function
+function gameOfLifeLoop(grid, stopButton, clearButton) {
+  gameOfLifetimeout(grid, stopButton, clearButton, false);
 }
 
-function gameOfLifetimeout(grid, msec = 1000) {
+// Recursively Call a Timeout Function every msec milliseconds
+function gameOfLifetimeout(grid, stopButton, clearButton, stop, msec = 500) {
+  stopButton.onclick = function() {
+    stop = true;
+  };
+  clearButton.onclick = function() {
+    stop = true;
+  };
   setTimeout(function() {
     grid.getNextStage();
-    gameOfLifetimeout(grid);
+    if (!stop) {
+      gameOfLifetimeout(grid, stopButton, clearButton, stop);
+    }
   }, msec);
 }
 

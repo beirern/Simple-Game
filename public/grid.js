@@ -55,9 +55,9 @@ class Grid {
 
     // Do not reset array on size rechange
     if (this.currentCells.length == 0) {
-      for (i = 0; i < numBins; i++) {
+      for (i = 0; i < this.numBins; i++) {
         this.currentCells.push([]);
-        for (j = 0; j < numBins; j++) {
+        for (j = 0; j < this.numBins; j++) {
           this.currentCells[i].push(new Cell(j, i));
         }
       }
@@ -74,8 +74,6 @@ class Grid {
     }
     this.ctx.fillRect(this.width - 1, 0, 1, this.height);
     this.xCoords.push(this.width - 1);
-
-    console.log(this.xCoords);
 
     for (i = 0; i < this.currentCells.length; i++) {
       this.ctx.fillRect(
@@ -115,6 +113,20 @@ class Grid {
             this.yCoords[1] - this.yCoords[0] - 1
           );
         }
+      }
+    }
+  }
+
+  empty() {
+    this.currentCells = [];
+    this.nextCells = [];
+
+    let i;
+    let j;
+    for (i = 0; i < this.numBins; i++) {
+      this.currentCells.push([]);
+      for (j = 0; j < this.numBins; j++) {
+        this.currentCells[i].push(new Cell(j, i));
       }
     }
   }

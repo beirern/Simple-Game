@@ -24,14 +24,18 @@ nextButton.addEventListener("click", function() {
   grid.getNextStage();
 });
 
+// Clicking Stop stops the infite loop
+const stopButton = document.getElementById("stop");
+
+// Clicking Clear clears the board and ends game
+const clearButton = document.getElementById("clear");
+clearButton.addEventListener("click", function() {
+  grid.empty();
+  grid.redraw();
+});
+
 // Clicking Start Infinitely loops the game
 const startButton = document.getElementById("start");
 startButton.addEventListener("click", function() {
-  gameOfLifeLoop(grid);
-});
-
-// Clicking Stop stops the infite loop
-const stopButton = document.getElementById("stop");
-stopButton.addEventListener("click", function() {
-  gameOfLifeLoop(grid, true);
+  gameOfLifeLoop(grid, stopButton, clearButton); // Passing in stop button for event listener
 });
