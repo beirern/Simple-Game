@@ -5,12 +5,14 @@ class Grid {
   canvas;
   width;
   height;
+  marginLeft;
   ctx;
   numBims;
   xCoords;
   yCoords;
   currentCells;
   nextCells;
+  cellCount;
 
   fillCellColor = "#66a3ff";
   borderColor = "#333300";
@@ -22,6 +24,8 @@ class Grid {
     this.yCoords = [];
     this.currentCells = [];
     this.nextCells = [];
+
+    this.cellCount = 0;
 
     this.numBins = numBins;
     this.canvas = canvas;
@@ -37,9 +41,14 @@ class Grid {
 
     // Making canvas full screen and divisible by numBins
     // Add one to leave room for one pixel border
-    this.canvas.width = window.outerWidth - (window.outerWidth % numBins) + 1;
-    this.canvas.height =
-      window.outerHeight - (window.outerHeight % numBins) + 1;
+    const newWidth = Math.floor(window.outerWidth * 0.8);
+    const newHeight = Math.floor(window.outerHeight * 0.8);
+    this.marginLeft = Math.floor(window.outerWidth * 0.1);
+
+    this.canvas.style.marginLeft = this.marginLeft.toString(10) + "px";
+
+    this.canvas.width = newWidth - (newWidth % numBins) + 1;
+    this.canvas.height = newHeight - (newHeight % numBins) + 1;
 
     // Getting Canvas Size
     this.width = this.canvas.width;
@@ -70,10 +79,12 @@ class Grid {
         1,
         this.height
       );
-      this.xCoords.push(i * Math.floor(this.width / this.numBins));
+      this.xCoords.push(
+        i * Math.floor(this.width / this.numBins) + this.marginLeft
+      );
     }
     this.ctx.fillRect(this.width - 1, 0, 1, this.height);
-    this.xCoords.push(this.width - 1);
+    this.xCoords.push(this.width - 1 + this.marginLeft);
 
     for (i = 0; i < this.currentCells.length; i++) {
       this.ctx.fillRect(
@@ -99,7 +110,7 @@ class Grid {
         if (this.currentCells[i][j].alive) {
           this.ctx.fillStyle = this.fillCellColor;
           this.ctx.fillRect(
-            this.xCoords[j] + 1,
+            this.xCoords[j] + 1 - this.marginLeft,
             this.yCoords[i] + 1,
             this.xCoords[1] - this.xCoords[0] - 1,
             this.yCoords[1] - this.yCoords[0] - 1
@@ -107,7 +118,7 @@ class Grid {
         } else {
           this.ctx.fillStyle = this.backgroundColor;
           this.ctx.fillRect(
-            this.xCoords[j] + 1,
+            this.xCoords[j] + 1 - this.marginLeft,
             this.yCoords[i] + 1,
             this.xCoords[1] - this.xCoords[0] - 1,
             this.yCoords[1] - this.yCoords[0] - 1
@@ -120,6 +131,7 @@ class Grid {
   empty() {
     this.currentCells = [];
     this.nextCells = [];
+    this.cellCount = 0;
 
     let i;
     let j;
@@ -147,12 +159,14 @@ class Grid {
 
     if (this.currentCells[newY][newX].alive) {
       this.ctx.fillStyle = this.backgroundColor;
+      this.cellCount--;
     } else {
       this.ctx.fillStyle = this.fillCellColor;
+      this.cellCount++;
     }
 
     this.ctx.fillRect(
-      this.xCoords[newX] + 1,
+      this.xCoords[newX] + 1 - this.marginLeft,
       this.yCoords[newY] + 1,
       this.xCoords[1] - this.xCoords[0] - 1,
       this.yCoords[1] - this.yCoords[0] - 1
@@ -179,17 +193,20 @@ class Grid {
           if (tempCell.numNeighbors <= 1) {
             // 0 or 1 neighbors dies
             this.nextCells[i].push(new Cell(j, i));
+            this.cellCount--;
           } else if (tempCell.numNeighbors <= 3) {
             // 2 or 3 survives
             this.nextCells[i].push(new Cell(j, i, true));
           } else {
             // 4 or more die
             this.nextCells[i].push(new Cell(j, i));
+            this.cellCount--;
           }
         } else {
           if (tempCell.numNeighbors === 3) {
             // 3 neighbors populates
             this.nextCells[i].push(new Cell(j, i, true));
+            this.cellCount++;
           } else {
             this.nextCells[i].push(new Cell(j, i));
           }
@@ -207,6 +224,10 @@ class Grid {
     this.nextCells = [];
 
     this.redraw();
+  }
+
+  isEmpty() {
+    return this.cellCount === 0;
   }
 }
 
