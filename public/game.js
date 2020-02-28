@@ -20,6 +20,7 @@ canvas.addEventListener("click", function(event) {
 
 // Clicking Next takes you one stage forward
 const nextButton = document.getElementById("next");
+nextButton.style.marginLeft = grid.canvas.style.marginLeft;
 nextButton.addEventListener("click", function() {
   grid.getNextStage();
 });
