@@ -11,6 +11,7 @@ const grid = new Grid(numBins, canvas);
 // Checking for resize
 window.addEventListener("resize", function() {
   grid.setUpGrid(numBins);
+  nextButton.style.marginLeft = grid.canvas.style.marginLeft;
 });
 
 // Onclick Event for Grid
