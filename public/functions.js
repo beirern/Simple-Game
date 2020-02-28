@@ -31,6 +31,9 @@ function gameOfLifeLoop(grid, stopButton, clearButton) {
 
 // Recursively Call a Timeout Function every msec milliseconds
 function gameOfLifetimeout(grid, stopButton, clearButton, stop, msec = 500) {
+  if (grid.isEmpty()) {
+    stop = true;
+  }
   stopButton.onclick = function() {
     stop = true;
   };
