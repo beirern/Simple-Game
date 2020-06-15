@@ -25,4 +25,4 @@ You know what they say, a picture is worth 1000 words!
 ![Hi!](ScreenshotWholesome.PNG)
 ![First Step](Screenshot1.PNG)
 ![Second Step](Screenshot2.PNG)
-![Third Step but Really First Step](ScreenShot1.PNG)
+![Third Step but Really First Step](Screenshot1.PNG)
