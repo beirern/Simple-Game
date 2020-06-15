@@ -6,6 +6,10 @@ It is Game of Life by Conway.
 
 I saw a part of a Joe Rogan Podcast Episode with Lex Fridman. He mentioned how simple [Conway's *Game of Life*](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) starts yet complex it can end up. I figured I would try to make my own simple simulation/game by only setting simple initial parameters and letting the game run. I did not get to the other games and only did Game of Life with no modifications!
 
+## Requirements
+1. Node.js
+2. npm
+
 ## Run File
 1. Clone Repository
 2. Run `npm install`
