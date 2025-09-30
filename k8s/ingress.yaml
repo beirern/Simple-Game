@@ -4,6 +4,7 @@ metadata:
   name: game-of-life
   labels:
     app: game-of-life
+  namespace: simple-game
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
