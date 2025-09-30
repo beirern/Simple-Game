@@ -4,7 +4,7 @@
   "description": "A simple game I am making",
   "main": "server.js",
   "scripts": {
-    "start": "SET NODE_ENV=production & node server",
+    "start": "node server",
     "dev": "nodemon server"
   },
   "author": "Nicola Beirer",
